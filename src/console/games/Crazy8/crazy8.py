@@ -1,67 +1,51 @@
 import pygame
 import os
-
-from cards import Cards
-
+from cards import Cards, Player
 
 pygame.init()
 
 WIDTH, HEIGHT = 1000, 600
-CENTER_X = WIDTH / 2
-CENTER_Y = HEIGHT / 2
-
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
-#try to draw the background
 base_dir = os.path.dirname(os.path.abspath(__file__))
-background = pygame.image.load(f"{base_dir}\cards\\board.jpg").convert_alpha()
+background = pygame.image.load(os.path.join(base_dir, "cards", "board.jpg")).convert_alpha()
 background = pygame.transform.scale(background, (WIDTH / 1.5, HEIGHT))
 
-back_card = pygame.image.load(f"{base_dir}\cards\\back.png").convert_alpha()
-back_card = pygame.transform.scale(back_card, (int(WIDTH /10), int(HEIGHT/5)))
+back_card = pygame.image.load(os.path.join(base_dir, "cards", "back.png")).convert_alpha()
+back_card = pygame.transform.scale(back_card, (int(WIDTH / 10), int(HEIGHT / 5)))
 
-Ace_card_heart = pygame.image.load(f"{base_dir}\cards\hearts\hearts (A).png").convert_alpha()
-Ace_card_heart = pygame.transform.scale(Ace_card_heart, (int(WIDTH /10), int(HEIGHT/5)))
+# Colors
+GREEN = (0, 128, 0)
 
-Ace_card_clover = pygame.image.load(f"{base_dir}\cards\clovers\clover (A).png").convert_alpha()
-Ace_card_clover = pygame.transform.scale(Ace_card_clover, (int(WIDTH /10), int(HEIGHT/5)))
+# Initialize Cards
+cards = Cards(275, HEIGHT / 2.5, back_card)
+cards.load_cards(base_dir)
+cards.shuffle_and_select()
 
-Ace_card_diamond = pygame.image.load(f"{base_dir}\cards\diamonds\diamond (A).png").convert_alpha()
-Ace_card_diamond = pygame.transform.scale(Ace_card_diamond, (int(WIDTH /10), int(HEIGHT/5)))
-
-Ace_card_spade = pygame.image.load(f"{base_dir}\cards\spades\spade (A).png").convert_alpha()
-Ace_card_spade = pygame.transform.scale(Ace_card_spade, (int(WIDTH /10), int(HEIGHT/5)))
-
-#define the colors
-RED = (255,0,0)
-GREEN = (0,255,0)
-BLUE = (0,0,255)
-
-card_back = Cards(275,HEIGHT / 2.5,back_card)
-spade = Cards(0,HEIGHT / 2.5,Ace_card_spade)
-diamond = Cards(WIDTH / 1.5,HEIGHT / 2.5,Ace_card_diamond)
-heart = Cards(0,HEIGHT / 10,Ace_card_heart)
-clover = Cards(WIDTH / 5,HEIGHT / 1.5,Ace_card_clover)
+# Initialize Players
+player_list = [1, 2, 3, 4]
+players = Player(player_list)
 
 def draw_bg():
-    screen.blit(background, (0,0))
-    
+    screen.blit(background, (0, 0))
 
 run = True
 while run:
+    screen.fill(GREEN)
     draw_bg()
 
-    card_back.draw_cards(screen)
-    spade.draw_cards(screen)
-    diamond.draw_cards(screen)
-    heart.draw_cards(screen)
-    clover.draw_cards(screen)
-    #event handler 
-    for event in pygame.event.get():
+    events = pygame.event.get()
+    for event in events:
         if event.type == pygame.QUIT:
             run = False
 
-    #update display
+    Player.game_logic(players, cards, events)
+    Player.draw_game(screen, players, cards)
+
+    # Example of handling a special card (you would do this when a card is played)
+    if cards.top_card and cards.top_card.is_special():
+        Player.handle_special_card(cards.top_card, players, cards)
+
     pygame.display.update()
 
 pygame.quit()
