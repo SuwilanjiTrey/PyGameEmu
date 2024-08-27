@@ -4,3 +4,5 @@ games will include classic games
 
 -action games
 -racing games
+-adventure games
+-board games
