@@ -1,0 +1,18 @@
+[
+    {
+        "name": "Main",
+        "path": "C:/Users/mwanji/Desktop/DEVELOPMENT/programing/programing code/python/games/python emulator/console/games/stick/Main.py"
+    },
+    {
+        "name": "shoot",
+        "path": "C:/Users/mwanji/Desktop/DEVELOPMENT/programing/programing code/python/games/python emulator/console/games/apple_game/shoot.py"
+    },
+    {
+        "name": "happy_garden",
+        "path": "C:/Users/mwanji/Desktop/DEVELOPMENT/programing/programing code/python/games/python emulator/console/games/garden/happy_garden.py"
+    },
+    {
+        "name": "dragons",
+        "path": "C:/Users/mwanji/Desktop/DEVELOPMENT/programing/programing code/python/games/python emulator/console/games/sleeping dragons/dragons.py"
+    }
+]
